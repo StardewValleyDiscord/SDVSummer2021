@@ -2,7 +2,7 @@
 # Written by aquova, 2020
 
 import discord
-import config
+import config, db
 
 client = discord.Client()
 
@@ -16,6 +16,9 @@ async def on_ready():
 async def on_raw_reaction_add(payload):
     # If they have reacted to the specified message with the correct emoji, add the role
     if payload.message_id == config.SIGNUP_MES:
+        if db.is_on_team(payload.user_id):
+            return
+
         for team in config.TEAMS:
             if team['emoji'] == payload.emoji.name:
                 try:
@@ -23,6 +26,7 @@ async def on_raw_reaction_add(payload):
                     team_id = team['id']
                     new_role = discord.utils.get(server.roles, id=team_id)
                     user = discord.utils.get(server.members, id=payload.user_id)
+                    db.add_member(payload.user_id, team_id)
                     await user.add_roles(new_role)
                     break
                 except Exception as e:

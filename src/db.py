@@ -32,3 +32,13 @@ def _db_write(query):
     sqlconn.execute(*query)
     sqlconn.commit()
     sqlconn.close()
+
+def add_member(userid, teamid):
+    # TODO: May want to catch foreign key SQLite exceptions (which shouldn't be possible)
+    query = ("INSERT INTO members (user_id, team) VALUES (?, ?)", [userid, teamid])
+    _db_write(query)
+
+def is_on_team(userid):
+    query = ("SELECT COUNT(*) FROM members WHERE user_id=?", [userid])
+    results = _db_read(query)
+    return results[0][0] != 0
