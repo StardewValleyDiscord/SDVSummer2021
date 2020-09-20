@@ -1,20 +1,3 @@
-"""
-Database layout:
-
-teams(
-    team_id      INT PRIMARY KEY
-    team_name    TEXT
-    points       INT
-)
-
-members(
-    user_id     INT PRIMARY KEY
-    team        INT
-    FOREIGN KEY(team) REFERENCES teams(team_id)
-    TODO: Add candy/tricks?
-)
-"""
-
 import discord, sqlite3
 from config import DATABASE_PATH
 

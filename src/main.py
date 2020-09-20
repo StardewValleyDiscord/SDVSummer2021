@@ -26,18 +26,18 @@ async def on_raw_reaction_add(payload):
         if db.is_on_team(payload.user_id):
             return
 
-        for team in TEAMS:
-            if team['emoji'] == payload.emoji.name:
-                try:
-                    server = [x for x in client.guilds if x.id == payload.guild_id][0]
-                    team_id = team['id']
-                    new_role = discord.utils.get(server.roles, id=team_id)
-                    user = discord.utils.get(server.members, id=payload.user_id)
-                    db.add_member(payload.user_id, team_id)
-                    await user.add_roles(new_role)
-                    break
-                except Exception as e:
-                    print(f"Something has gone wrong with adding team role: {e}")
+        team_emoji = [t for t in TEAMS if t['emoji'] == payload.emoji.name]
+        if team_emoji:
+            try:
+                team = team_emoji[0]
+                server = [x for x in client.guilds if x.id == payload.guild_id][0]
+                team_id = team['id']
+                new_role = discord.utils.get(server.roles, id=team_id)
+                user = discord.utils.get(server.members, id=payload.user_id)
+                db.add_member(payload.user_id, team_id)
+                await user.add_roles(new_role)
+            except Exception as e:
+                print(f"Something has gone wrong with adding team role: {e}")
 
 @client.event
 async def on_message(message):
