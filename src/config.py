@@ -8,5 +8,6 @@ with open(_config_path) as config_file:
     cfg = json.load(config_file)
 
 DISCORD_KEY = cfg['discord']
+CMD_PREFIX = cfg['command_prefix']
 TEAMS = cfg['teams']
 SIGNUP_MES = cfg['channels']['signup']

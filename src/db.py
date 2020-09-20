@@ -42,3 +42,10 @@ def is_on_team(userid):
     query = ("SELECT COUNT(*) FROM members WHERE user_id=?", [userid])
     results = _db_read(query)
     return results[0][0] != 0
+
+def add_points(teamid, pts):
+    old_pts_query = ("SELECT * FROM teams WHERE team_id=?", [teamid])
+    old_pts = _db_read(old_pts_query)[0]
+    new_pts = old_pts[2] + pts
+    update_query = ("REPLACE INTO teams (team_id, team_name, points) VALUES (?, ?, ?)", [teamid, old_pts[1], new_pts])
+    _db_write(update_query)
