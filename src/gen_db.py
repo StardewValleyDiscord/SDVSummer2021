@@ -21,7 +21,7 @@ members(
 import sqlite3
 from config import DATABASE_PATH, TEAMS
 
-def main():
+def init_db():
     sqlconn = sqlite3.connect(DATABASE_PATH)
     sqlconn.execute("CREATE TABLE teams (team_id INT PRIMARY KEY, team_name TEXT, points INT);")
     sqlconn.execute("CREATE TABLE members (user_id INT PRIMARY KEY, team INT, treats INT, tricks INT, FOREIGN KEY(team) REFERENCES teams(team_id));")
@@ -33,4 +33,4 @@ def main():
     sqlconn.close()
 
 if __name__ == "__main__":
-    main()
+    init_db()

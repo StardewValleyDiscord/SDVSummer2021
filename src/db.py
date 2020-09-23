@@ -54,7 +54,7 @@ def get_points(teamid):
         return None
 
 def get_trick_treats(userid):
-    fetch_query = ("SELECT (treats, tricks) FROM members WHERE user_id=?", [userid])
+    fetch_query = ("SELECT treats, tricks FROM members WHERE user_id=?", [userid])
     results = _db_read(fetch_query)
     try:
         return results[0]
