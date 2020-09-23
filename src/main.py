@@ -2,15 +2,16 @@
 # Discord bot made for the Fall 2020 SDV Discord event
 # Written by aquova, 2020
 
-import discord
+import discord, traceback
 import db, teams, utils
-from config import SIGNUP_MES, TEAMS, CMD_PREFIX, DISCORD_KEY
-import traceback
+from config import SIGNUP_MES, CMD_PREFIX, DISCORD_KEY
+from utils import Trick_Treat
 
 client = discord.Client()
 
 FUNC_DICT = {
     "add": teams.add_points,
+    "lb": teams.print_lb,
 }
 
 @client.event
@@ -23,21 +24,13 @@ async def on_ready():
 async def on_raw_reaction_add(payload):
     # If they have reacted to the specified message with the correct emoji, add the role
     if payload.message_id == SIGNUP_MES:
-        if db.is_on_team(payload.user_id):
-            return
-
-        team_emoji = [t for t in TEAMS if t['emoji'] == payload.emoji.name]
-        if team_emoji:
-            try:
-                team = team_emoji[0]
-                server = [x for x in client.guilds if x.id == payload.guild_id][0]
-                team_id = team['id']
-                new_role = discord.utils.get(server.roles, id=team_id)
-                user = discord.utils.get(server.members, id=payload.user_id)
-                db.add_member(payload.user_id, team_id)
-                await user.add_roles(new_role)
-            except Exception as e:
-                print(f"Something has gone wrong with adding team role: {e}")
+        await teams.signup_user(payload, client)
+    else:
+        emoji_name = payload.emoji if type(payload.emoji) == str else payload.emoji.name
+        if emoji_name == "candy":
+            teams.trick_or_treat(payload, client, Trick_Treat.TREAT)
+        elif emoji_name == "onion":
+            teams.trick_or_treat(payload, client, Trick_Treat.TRICK)
 
 @client.event
 async def on_message(message):
