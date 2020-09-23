@@ -45,6 +45,14 @@ def add_points(teamid, pts):
     update_query = ("REPLACE INTO teams (team_id, team_name, points) VALUES (?, ?, ?)", [teamid, old_pts[1], new_pts])
     _db_write(update_query)
 
+def get_points(teamid):
+    query = ("SELECT points FROM teams WHERE team_id=?", [teamid])
+    pts = _db_read(query)
+    try:
+        return pts[0][0]
+    except IndexError:
+        return None
+
 def get_trick_treats(userid):
     fetch_query = ("SELECT (treats, tricks) FROM members WHERE user_id=?", [userid])
     results = _db_read(fetch_query)

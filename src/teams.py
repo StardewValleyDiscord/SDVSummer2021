@@ -18,6 +18,15 @@ async def add_points(message):
     else:
         return "I could not find a team name in that message"
 
+async def print_lb(message):
+    team_ids = [t['id'] for t in TEAMS]
+    out = '```\n'
+    for team in TEAMS:
+        out += f"{team['name']} - {db.get_points(team['id'])}\n"
+
+    out += '```'
+    return out
+
 async def signup_user(payload, client):
     if db.is_on_team(payload.user_id):
         return
