@@ -28,9 +28,9 @@ async def on_raw_reaction_add(payload):
     else:
         emoji_name = payload.emoji if type(payload.emoji) == str else payload.emoji.name
         if emoji_name == "candy":
-            teams.trick_or_treat(payload, client, Trick_Treat.TREAT)
+            await teams.trick_or_treat(payload, client, Trick_Treat.TREAT)
         elif emoji_name == "onion":
-            teams.trick_or_treat(payload, client, Trick_Treat.TRICK)
+            await teams.trick_or_treat(payload, client, Trick_Treat.TRICK)
 
 @client.event
 async def on_message(message):

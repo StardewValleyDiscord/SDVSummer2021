@@ -22,7 +22,7 @@ async def print_lb(message):
     team_ids = [t['id'] for t in TEAMS]
     out = '```\n'
     for team in TEAMS:
-        out += f"{team['name']} - {db.get_points(team['id'])}\n"
+        out += f"{db.get_points(team['id'])} pts - {team['name']}\n"
 
     out += '```'
     return out
@@ -44,7 +44,7 @@ async def signup_user(payload, client):
         except Exception as e:
             print(f"Something has gone wrong with adding team role: {e}")
 
-def trick_or_treat(payload, client, tot):
+async def trick_or_treat(payload, client, tot):
     sender = payload.user_id
 
     server = [x for x in client.guilds if x.id == payload.guild_id][0]
