@@ -11,3 +11,6 @@ DISCORD_KEY = cfg['discord']
 CMD_PREFIX = cfg['command_prefix']
 TEAMS = cfg['teams']
 SIGNUP_MES = cfg['channels']['signup']
+
+INIT_TREATS = cfg['init']['treats']
+INIT_TRICKS = cfg['init']['tricks']

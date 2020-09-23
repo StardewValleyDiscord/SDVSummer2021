@@ -1,9 +1,6 @@
 import discord, sqlite3
-from config import DATABASE_PATH
+from config import DATABASE_PATH, INIT_TREATS, INIT_TRICKS
 from utils import Trick_Treat
-
-INIT_TREATS = 10
-INIT_TRICKS = 5
 
 # If database hasn't been created, run scripts/gen_db.py
 
