@@ -6,9 +6,9 @@ async def trick_or_treat(payload, client):
     emoji_name = payload.emoji if type(payload.emoji) == str else payload.emoji.name
 
     tot = None
-    if emoji_name == "candy":
+    if emoji_name == "🍬":
         tot = Trick_Treat.TREAT
-    elif emoji_name == "onion":
+    elif emoji_name == "🧅":
         tot = Trick_Treat.TRICK
     else:
         return

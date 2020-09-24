@@ -28,7 +28,7 @@ def is_on_team(userid):
     return results[0][0] != 0
 
 def get_team(userid):
-    query = ("SELECT teamid FROM members WHERE user_id=?", [userid])
+    query = ("SELECT team FROM members WHERE user_id=?", [userid])
     results = _db_read(query)
     try:
         return results[0][0]
@@ -64,17 +64,20 @@ def use_trick_treat(userid, tot):
     if not results:
         return
 
+    user = results[0]
+    treats = user[2]
+    tricks = user[3]
     if tot == Trick_Treat.TREAT:
         # If user is out of treats, just leave
-        if results[0][2] == 0:
+        if treats == 0:
             return False
-        results[2] -= 1
+        treats -= 1
     elif tot == Trick_Treat.TRICK:
         # If user is out of tricks, leave
-        if results[0][3] == 0:
+        if tricks == 0:
             return False
-        results[3] -= 1
+        tricks -= 1
 
-    replace_query = ("REPLACE INTO members (user_id, team, treats, tricks) VALUES (?, ?, ?, ?)", results)
+    replace_query = ("REPLACE INTO members (user_id, team, treats, tricks) VALUES (?, ?, ?, ?)", [user[0], user[1], treats, tricks])
     _db_write(replace_query)
     return True
