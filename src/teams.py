@@ -18,7 +18,6 @@ async def add_points(message):
         return "I could not find a team name in that message"
 
 async def print_lb(message):
-    team_ids = [t['id'] for t in TEAMS]
     out = '```\n'
     for team in TEAMS:
         out += f"{db.get_points(team['id'])} pts - {team['name']}\n"
