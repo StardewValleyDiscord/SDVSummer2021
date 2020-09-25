@@ -32,7 +32,7 @@ async def on_raw_reaction_add(payload):
         await teams.signup_user(payload, client)
         return
 
-    await trick_treat.trick_or_treat(payload, client)
+    # await trick_treat.trick_or_treat(payload, client)
 
 @client.event
 async def on_message(message):

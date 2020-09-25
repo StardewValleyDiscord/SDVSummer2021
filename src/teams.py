@@ -1,6 +1,6 @@
 import discord
 import db, utils
-from config import TEAMS
+from config import TEAMS, FALL2020_ROLE, FALL_ROLE
 
 @utils.requires_captain
 async def add_points(message):
@@ -36,8 +36,10 @@ async def signup_user(payload, client):
             server = [x for x in client.guilds if x.id == payload.guild_id][0]
             team_id = team['id']
             new_role = discord.utils.get(server.roles, id=team_id)
+            fall_role = discord.utils.get(server.roles, id=FALL_ROLE)
+            fall2020_role = discord.utils.get(server.roles, id=FALL2020_ROLE)
             user = discord.utils.get(server.members, id=payload.user_id)
             db.add_member(payload.user_id, team_id)
-            await user.add_roles(new_role)
+            await user.add_roles(new_role, fall2020_role, fall_role)
         except Exception as e:
             print(f"Something has gone wrong with adding team role: {e}")
