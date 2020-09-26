@@ -34,12 +34,17 @@ async def signup_user(payload, client):
         try:
             team = team_emoji[0]
             server = [x for x in client.guilds if x.id == payload.guild_id][0]
-            team_id = team['id']
-            new_role = discord.utils.get(server.roles, id=team_id)
-            fall_role = discord.utils.get(server.roles, id=FALL_ROLE)
-            fall2020_role = discord.utils.get(server.roles, id=FALL2020_ROLE)
             user = discord.utils.get(server.members, id=payload.user_id)
-            db.add_member(payload.user_id, team_id)
-            await user.add_roles(new_role, fall2020_role, fall_role)
+            if team['capped']:
+                channel = discord.utils.get(server.channels, id=payload.channel_id)
+                message = await channel.fetch_message(id=payload.message_id)
+                await message.remove_reaction(payload.emoji, user)
+            else:
+                team_id = team['id']
+                new_role = discord.utils.get(server.roles, id=team_id)
+                fall_role = discord.utils.get(server.roles, id=FALL_ROLE)
+                fall2020_role = discord.utils.get(server.roles, id=FALL2020_ROLE)
+                db.add_member(payload.user_id, team_id)
+                await user.add_roles(new_role, fall2020_role, fall_role)
         except Exception as e:
             print(f"Something has gone wrong with adding team role: {e}")
