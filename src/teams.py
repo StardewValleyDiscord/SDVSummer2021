@@ -17,6 +17,7 @@ async def add_points(message):
     else:
         return "I could not find a team name in that message"
 
+@utils.requires_captain
 async def print_lb(message):
     out = '```\n'
     for team in TEAMS:

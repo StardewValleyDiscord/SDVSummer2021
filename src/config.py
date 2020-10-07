@@ -10,6 +10,7 @@ with open(_config_path) as config_file:
 DISCORD_KEY = cfg['discord']
 CMD_PREFIX = cfg['command_prefix']
 TEAMS = cfg['teams']
+JUNIMO_ROLE = cfg['roles']['junimo']
 FALL_ROLE = cfg['roles']['fall']
 FALL2020_ROLE = cfg['roles']['fall2020']
 SIGNUP_MES = cfg['messages']['signup']

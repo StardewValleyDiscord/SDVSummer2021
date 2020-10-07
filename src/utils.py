@@ -1,4 +1,4 @@
-from config import TEAMS
+from config import TEAMS, JUNIMO_ROLE
 from enum import Enum, unique
 
 @unique
@@ -22,7 +22,7 @@ def requires_captain(func):
     async def wrapper(*args, **kwargs):
         message = args[-1]
         captains = [x['captain'] for x in TEAMS]
-        roles = [x for x in message.author.roles if x.id in captains]
+        roles = [x for x in message.author.roles if (x.id in captains or x.id == JUNIMO_ROLE)]
         if len(roles) == 0:
             return None
 

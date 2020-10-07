@@ -22,7 +22,7 @@ async def trick_or_treat(payload, client):
 
     sender_team = db.get_team(sender)
     receiver_team = db.get_team(receiver)
-    if sender_team == receiver_team or sender_team == None:
+    if sender_team == receiver_team or sender_team == None or receiver_team == None:
         return
 
     if tot == Trick_Treat.TREAT:
