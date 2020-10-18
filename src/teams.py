@@ -1,6 +1,6 @@
 import discord
 import db, utils
-from config import TEAMS, FALL2020_ROLE, FALL_ROLE
+from config import TEAMS, FALL2020_ROLE, FALL_ROLE, VOTING_CHANNELS
 
 @utils.requires_captain
 async def add_points(message):
@@ -49,3 +49,23 @@ async def signup_user(payload, client):
                 await user.add_roles(new_role, fall2020_role, fall_role)
         except Exception as e:
             print(f"Something has gone wrong with adding team role: {e}")
+
+async def check_vote(payload, client):
+    emoji_name = payload.emoji if type(payload.emoji) == str else payload.emoji.name
+
+    if emoji_name != "☑️":
+        return
+
+    server = [x for x in client.guilds if x.id == payload.guild_id][0]
+    channel = discord.utils.get(server.channels, id=payload.channel_id)
+    if channel.id not in VOTING_CHANNELS:
+        return
+
+    reactor_team = db.get_team(payload.user_id)
+    if reactor_team == None:
+        return
+    message = await channel.fetch_message(id=payload.message_id)
+    poster_team = db.get_team(message.author.id)
+    if reactor_team == poster_team:
+        reactor = discord.utils.get(server.members, id=payload.user_id)
+        await message.remove_reaction(payload.emoji, reactor)

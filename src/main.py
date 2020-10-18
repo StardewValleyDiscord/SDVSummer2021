@@ -33,6 +33,7 @@ async def on_raw_reaction_add(payload):
         return
 
     await trick_treat.trick_or_treat(payload, client)
+    await teams.check_vote(payload, client)
 
 @client.event
 async def on_message(message):

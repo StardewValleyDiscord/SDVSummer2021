@@ -14,6 +14,7 @@ JUNIMO_ROLE = cfg['roles']['junimo']
 FALL_ROLE = cfg['roles']['fall']
 FALL2020_ROLE = cfg['roles']['fall2020']
 SIGNUP_MES = cfg['messages']['signup']
+VOTING_CHANNELS = cfg['channels']['vote']
 
 INIT_TREATS = cfg['init']['treats']
 INIT_TRICKS = cfg['init']['tricks']
