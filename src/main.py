@@ -7,7 +7,10 @@ import db, teams, trick_treat, utils
 from config import SIGNUP_MES, CMD_PREFIX, DISCORD_KEY, DATABASE_PATH
 from gen_db import init_db
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.members = True
+
+client = discord.Client(intents=intents)
 
 FUNC_DICT = {
     "add": teams.add_points,
