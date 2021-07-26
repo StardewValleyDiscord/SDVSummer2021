@@ -3,7 +3,7 @@
 # Written by aquova, 2020
 
 import discord, traceback, os
-import db, teams, trick_treat, utils
+import db, teams, utils
 from config import SIGNUP_MES, CMD_PREFIX, DISCORD_KEY, DATABASE_PATH
 from gen_db import init_db
 
@@ -15,8 +15,6 @@ client = discord.Client(intents=intents)
 FUNC_DICT = {
     "add": teams.add_points,
     "lb": teams.print_lb,
-    "tricks": trick_treat.list_trick_treat,
-    "treats": trick_treat.list_trick_treat,
 }
 
 @client.event
@@ -35,7 +33,6 @@ async def on_raw_reaction_add(payload):
         await teams.signup_user(payload, client)
         return
 
-    await trick_treat.trick_or_treat(payload, client)
     await teams.check_vote(payload, client)
 
 @client.event

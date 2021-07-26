@@ -14,4 +14,3 @@ This bot was made to assist in the Stardew Valley Discord Fall 2020 event. It ha
 
 - Allowing users to sign up for a team. The bot would award the appropriate roles, as well as prevent users from switching.
 - Maintaining a leaderboard for the teams, and allowing users with a specified role the ability to add/remove points.
-- Allowing users to participate in a "Trick or Treat" game, where they can award each other's teams points via reactions

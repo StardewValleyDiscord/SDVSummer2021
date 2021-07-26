@@ -13,8 +13,6 @@ members(
     user_id     INT PRIMARY KEY
     team        INT
     FOREIGN KEY(team) REFERENCES teams(team_id)
-    treats      INT
-    tricks      INT
 )
 """
 
@@ -24,7 +22,7 @@ from config import DATABASE_PATH, TEAMS
 def init_db():
     sqlconn = sqlite3.connect(DATABASE_PATH)
     sqlconn.execute("CREATE TABLE teams (team_id INT PRIMARY KEY, team_name TEXT, points INT);")
-    sqlconn.execute("CREATE TABLE members (user_id INT PRIMARY KEY, team INT, treats INT, tricks INT, FOREIGN KEY(team) REFERENCES teams(team_id));")
+    sqlconn.execute("CREATE TABLE members (user_id INT PRIMARY KEY, team INT, FOREIGN KEY(team) REFERENCES teams(team_id));")
 
     for team in TEAMS:
         sqlconn.execute("INSERT INTO teams (team_id, team_name, points) VALUES (?, ?, ?)", [team['id'], team['name'], 0])

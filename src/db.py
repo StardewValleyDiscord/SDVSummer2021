@@ -1,6 +1,5 @@
 import discord, sqlite3
-from config import DATABASE_PATH, INIT_TREATS, INIT_TRICKS
-from utils import Trick_Treat
+from config import DATABASE_PATH
 
 # If database hasn't been created, run scripts/gen_db.py
 
@@ -19,7 +18,7 @@ def _db_write(query):
 
 def add_member(userid, teamid):
     # TODO: May want to catch foreign key SQLite exceptions (which shouldn't be possible)
-    query = ("INSERT INTO members (user_id, team, treats, tricks) VALUES (?, ?, ?, ?)", [userid, teamid, INIT_TREATS, INIT_TRICKS])
+    query = ("INSERT INTO members (user_id, team) VALUES (?, ?, ?, ?)", [userid, teamid])
     _db_write(query)
 
 def is_on_team(userid):
@@ -49,35 +48,3 @@ def get_points(teamid):
         return pts[0][0]
     except IndexError:
         return None
-
-def get_trick_treats(userid):
-    fetch_query = ("SELECT treats, tricks FROM members WHERE user_id=?", [userid])
-    results = _db_read(fetch_query)
-    try:
-        return results[0]
-    except IndexError:
-        return None
-
-def use_trick_treat(userid, tot):
-    fetch_query = ("SELECT * FROM members WHERE user_id=?", [userid])
-    results = _db_read(fetch_query)
-    if not results:
-        return
-
-    user = results[0]
-    treats = user[2]
-    tricks = user[3]
-    if tot == Trick_Treat.TREAT:
-        # If user is out of treats, just leave
-        if treats == 0:
-            return False
-        treats -= 1
-    elif tot == Trick_Treat.TRICK:
-        # If user is out of tricks, leave
-        if tricks == 0:
-            return False
-        tricks -= 1
-
-    replace_query = ("REPLACE INTO members (user_id, team, treats, tricks) VALUES (?, ?, ?, ?)", [user[0], user[1], treats, tricks])
-    _db_write(replace_query)
-    return True
