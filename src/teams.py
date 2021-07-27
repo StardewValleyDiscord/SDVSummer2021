@@ -1,6 +1,6 @@
 import discord
 import db, utils
-from config import TEAMS, FALL2020_ROLE, FALL_ROLE, VOTING_CHANNELS
+from config import TEAMS, ROLE_CURRENT, ROLE_ANNUAL, VOTING_CHANNELS
 
 @utils.requires_captain
 async def add_points(message):
@@ -30,7 +30,8 @@ async def signup_user(payload, client):
     if db.is_on_team(payload.user_id):
         return
 
-    team_emoji = [t for t in TEAMS if t['emoji'] == payload.emoji.name]
+    emoji_name = payload.emoji if type(payload.emoji) == str else payload.emoji.name
+    team_emoji = [t for t in TEAMS if t['emoji'] == emoji_name]
     if team_emoji:
         try:
             team = team_emoji[0]
@@ -43,10 +44,10 @@ async def signup_user(payload, client):
             else:
                 team_id = team['id']
                 new_role = discord.utils.get(server.roles, id=team_id)
-                fall_role = discord.utils.get(server.roles, id=FALL_ROLE)
-                fall2020_role = discord.utils.get(server.roles, id=FALL2020_ROLE)
+                role_annual = discord.utils.get(server.roles, id=ROLE_ANNUAL)
+                role_current = discord.utils.get(server.roles, id=ROLE_CURRENT)
                 db.add_member(payload.user_id, team_id)
-                await user.add_roles(new_role, fall2020_role, fall_role)
+                await user.add_roles(new_role, role_current, role_annual)
         except Exception as e:
             print(f"Something has gone wrong with adding team role: {e}")
 

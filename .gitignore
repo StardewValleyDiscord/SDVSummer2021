@@ -1,8 +1,8 @@
 # Dev files
 **/__pycache__/*
 *.code-workspace
+**/.devcontainer/*
 
 # Private items
 **/private/*
 *.db
-**/deploy.sh

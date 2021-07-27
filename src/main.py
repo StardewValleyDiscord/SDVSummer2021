@@ -1,16 +1,11 @@
-# Autumn
-# Discord bot made for the Fall 2020 SDV Discord event
-# Written by aquova, 2020
+# Summer
+# Discord bot made for the Summer 2021 SDV Discord event
+# Written by aquova, 2020-2021
 
-import discord, traceback, os
-import db, teams, utils
-from config import SIGNUP_MES, CMD_PREFIX, DISCORD_KEY, DATABASE_PATH
+import traceback, os
+import teams, utils
+from config import client, SIGNUP_MES, CMD_PREFIX, DISCORD_KEY, DATABASE_PATH
 from gen_db import init_db
-
-intents = discord.Intents.default()
-intents.members = True
-
-client = discord.Client(intents=intents)
 
 FUNC_DICT = {
     "add": teams.add_points,
@@ -53,7 +48,7 @@ async def on_message(message):
                 output = await FUNC_DICT[command](message)
                 if output != None:
                     await message.channel.send(output)
-    except Exception as e:
+    except Exception:
         print(traceback.format_exc())
 
 client.run(DISCORD_KEY)
