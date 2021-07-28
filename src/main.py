@@ -3,7 +3,7 @@
 # Written by aquova, 2020-2021
 
 import traceback, os
-import teams, utils
+import events, teams, utils
 from config import client, SIGNUP_MES, CMD_PREFIX, DISCORD_KEY, DATABASE_PATH
 from gen_db import init_db
 
@@ -25,10 +25,11 @@ async def on_ready():
 async def on_raw_reaction_add(payload):
     # If they have reacted to the specified message with the correct emoji, add the role
     if payload.message_id == SIGNUP_MES:
-        await teams.signup_user(payload, client)
+        await teams.signup_user(payload)
         return
 
-    await teams.check_vote(payload, client)
+    await events.award_event_prize(payload)
+    await teams.check_vote(payload)
 
 @client.event
 async def on_message(message):
@@ -48,6 +49,9 @@ async def on_message(message):
                 output = await FUNC_DICT[command](message)
                 if output != None:
                     await message.channel.send(output)
+        else:
+            await events.event_check(message)
+
     except Exception:
         print(traceback.format_exc())
 

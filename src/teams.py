@@ -1,6 +1,6 @@
 import discord
 import db, utils
-from config import TEAMS, ROLE_CURRENT, ROLE_ANNUAL, VOTING_CHANNELS
+from config import client, TEAMS, ROLE_CURRENT, ROLE_ANNUAL, VOTING_CHANNELS
 
 @utils.requires_captain
 async def add_points(message):
@@ -26,7 +26,7 @@ async def print_lb(message):
     out += '```'
     return out
 
-async def signup_user(payload, client):
+async def signup_user(payload):
     if db.is_on_team(payload.user_id):
         return
 
@@ -51,7 +51,7 @@ async def signup_user(payload, client):
         except Exception as e:
             print(f"Something has gone wrong with adding team role: {e}")
 
-async def check_vote(payload, client):
+async def check_vote(payload):
     emoji_name = payload.emoji if type(payload.emoji) == str else payload.emoji.name
 
     if emoji_name != "☑️":
