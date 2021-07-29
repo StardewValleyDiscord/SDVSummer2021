@@ -1,8 +1,22 @@
 version: '3'
 services:
     summer:
-        image: aquova/commonbot:1.7.3.1
+        image: summer
         restart: unless-stopped
         volumes:
             - ./src:/summer
             - ./private:/private
+    php:
+        image: php:7.3-fpm
+        restart: unless-stopped
+        volumes:
+            - ./html:/html
+            - ./private:/private
+    web:
+        image: nginx:latest
+        restart: unless-stopped
+        ports:
+            - "58008:80"
+        volumes:
+            - ./html:/html
+            - ./site.conf:/etc/nginx/conf.d/default.conf
