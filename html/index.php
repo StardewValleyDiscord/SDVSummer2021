@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <link rel="icon" href="assets/cojiro.png" type="image/png">
         <link rel="stylesheet" href="css/leaderboard.css" type="text/css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
         <meta property="og:title" content="SDV Summer 2021 Event Leaderboard" />
         <meta property="og:url" content="https://summer2021.stardew.chat/" />

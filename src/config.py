@@ -9,6 +9,7 @@ with open(_config_path) as config_file:
 
 DISCORD_KEY = cfg['discord']
 CMD_PREFIX = cfg['command_prefix']
+LB_URL = cfg['url']
 TEAMS = cfg['teams']
 JUNIMO_ROLE = cfg['roles']['junimo']
 ROLE_ANNUAL = cfg['roles']['annual']

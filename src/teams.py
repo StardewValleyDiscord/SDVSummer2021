@@ -1,6 +1,6 @@
 import discord
 import db, utils
-from config import client, TEAMS, ROLE_CURRENT, ROLE_ANNUAL, VOTING_CHANNELS
+from config import client, TEAMS, ROLE_CURRENT, ROLE_ANNUAL, VOTING_CHANNELS, LB_URL
 
 @utils.requires_captain
 async def add_points(message):
@@ -18,13 +18,16 @@ async def add_points(message):
         return "I could not find a team name in that message"
 
 @utils.requires_captain
-async def print_lb(message):
-    out = '```\n'
-    for team in TEAMS:
-        out += f"{db.get_points(team['id'])} pts - {team['name']}\n"
+async def print_lb(_):
+    if LB_URL != "":
+        return LB_URL
+    else:
+        out = '```\n'
+        for team in TEAMS:
+            out += f"{db.get_points(team['id'])} pts - {team['name']}\n"
 
-    out += '```'
-    return out
+        out += '```'
+        return out
 
 async def signup_user(payload):
     if db.is_on_team(payload.user_id):
