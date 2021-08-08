@@ -28,8 +28,7 @@ async def award_event_prize(payload):
                 db.add_points(team, AWARD_DICT[emoji_name])
 
                 # Add our own emoji, so we can show that it went through
-                emoji = discord.utils.get(author.guild.emojis, name=emoji_name)
-                await message.add_reaction(emoji)
+                await message.add_reaction(payload.emoji)
 
             except Exception as e:
                 print(f"Exception found when fetching reaction message: {str(e)}")
